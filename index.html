@@ -15,16 +15,15 @@
         }
 
         #imageContainer {
-            position: absolute; /* Use absolute positioning for precise control */
-            left: 0; /* Place the container on the very left of the screen */
-            top: 100px; /* Adjust top position as needed */
-            width: 100%; /* Make the container span the full width of its parent */
+            position: absolute;
+            left: 0;
+            top: 100px; /* Adjust this value as necessary */
         }
         
         #imageContainer img {
-            max-width: 100%; /* Make images as wide as their container */
-            width: 100%; /* Specify width to make images wider */
-            height: auto; /* Adjust height as needed, or use a specific pixel value for taller images */
+            width: 100%; /* This will make the image as wide as the #imageContainer */
+            height: auto; /* Adjusts the height to maintain the aspect ratio */
+            max-width: none; /* Override any max-width that might restrict the size */
         }
 
         .rerollButton {
