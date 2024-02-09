@@ -136,6 +136,23 @@
             }
         }
 
+                function typeSubLetter() {
+            if (subIndex < subText.length) {
+                let span = document.createElement('span');
+                span.innerText = subText[subIndex];
+                span.style.fontSize = '20px';
+                subContainer.appendChild(span);
+                subIndex++;
+                setTimeout(typeSubLetter, 75);
+            } else {
+                setTimeout(function() {
+                    revealMenu();
+                    // Trigger the fade-in of the text box
+                    document.getElementById('mainMenuTextBox').style.display = 'block';
+                }, 500); // Small delay before revealing the menu and text box
+            }
+        }
+
         function revealMenu() {
             document.getElementById('mainMenu').classList.remove('hidden');
             document.getElementById('playerButton').style.animation = 'fadeIn 1s ease forwards';
