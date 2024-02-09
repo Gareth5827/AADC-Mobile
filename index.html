@@ -6,34 +6,40 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             overflow-y: auto;
         }
 
-        /* Styling for reroll buttons */
-        .rerollButton {
-            position: fixed;
-            right: 20px; /* Adjust as needed */
-            padding: 10px 20px; /* Adjustable size */
-            font-size: 16px; /* Adjustable font size */
-            cursor: pointer;
-        }
-
-        #rerollPlayerButton {
-            top: 50%;
-        }
-
-        #rerollHostButton {
-            top: calc(50% + 60px); /* 60px below the player button */
+        #dynamicText {
+            text-align: left; /* Align text to the very left */
+            white-space: nowrap; /* Ensure the text does not wrap */
         }
 
         #imageContainer {
             margin-top: 50px; /* Adjust as needed */
+            margin-left: 10%; /* Move a little more to the left */
         }
 
         #imageContainer img {
             max-width: 80%;
             height: auto;
+        }
+
+        .rerollButton {
+            display: inline-block;
+            padding: 20px 40px; /* Larger button size */
+            font-size: 24px; /* Larger text size */
+            margin: 0 20px; /* Increase distance between buttons */
+            cursor: pointer;
+            position: fixed;
+            right: 20px; /* Adjust as needed */
+        }
+
+        #rerollPlayerButton {
+            top: 40%; /* Adjust position for better spacing */
+        }
+
+        #rerollHostButton {
+            top: 60%; /* Further apart from the player button */
         }
     </style>
 </head>
@@ -45,26 +51,26 @@
 <button id="rerollHostButton" class="rerollButton" style="display:none;" onclick="rerollHost()">Reroll Host</button>
 
 <script>
-const mainText = "aaaaaaaaaaaaaaaaaaaand ACTION! Directors Cut";
+const mainText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaand ACTION! Directors Cut";
 const mainContainer = document.getElementById('dynamicText');
 let mainIndex = 0;
 
 function typeLetter() {
+    let span = document.createElement('span');
     if (mainIndex < mainText.length) {
-        let span = document.createElement('span');
         span.innerText = mainText[mainIndex];
+        if(mainText[mainIndex] === 'a' && mainIndex < 30) {
+            span.style.fontSize = `${mainIndex + 1}px`;
+        } else {
+            span.style.fontSize = '30px';
+        }
         mainContainer.appendChild(span);
         mainIndex++;
         setTimeout(typeLetter, 90); // Speed of typing
-    } else {
-        // Show reroll buttons after text is fully displayed
-        document.getElementById('rerollPlayerButton').style.display = 'inline';
-        document.getElementById('rerollHostButton').style.display = 'inline';
     }
 }
 
 function getRandomImageId(playerType) {
-    // Generate image ID based on player type
     const range = playerType === 'player' ? 20 : 10; // 20 for player, 10 for host
     const offset = playerType === 'player' ? 1 : 21; // Start from 1 for player, 21 for host
     return Math.floor(Math.random() * range) + offset;
@@ -79,11 +85,15 @@ function displayImage(imageId) {
 function rerollPlayer() {
     const imageId = getRandomImageId('player');
     displayImage(imageId);
+    document.getElementById('rerollPlayerButton').style.display = 'inline';
+    document.getElementById('rerollHostButton').style.display = 'inline';
 }
 
 function rerollHost() {
     const imageId = getRandomImageId('host');
     displayImage(imageId);
+    document.getElementById('rerollPlayerButton').style.display = 'inline';
+    document.getElementById('rerollHostButton').style.display = 'inline';
 }
 
 // Start typing the text on page load
