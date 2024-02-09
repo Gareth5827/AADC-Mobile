@@ -43,14 +43,24 @@
         #rerollHostButton {
             top: 60%; /* Further apart from the player button */
         }
+
+        #numberDisplay {
+            position: fixed; /* Or absolute, depending on your layout */
+            top: 50px; /* Adjust as needed */
+            left: 50%; /* Adjust as needed */
+            font-size: 48px; /* Specify the font size */
+            transform: translateX(-50%); /* Center it horizontally if needed */
+        }
     </style>
 </head>
 <body>
 
 <div id="dynamicText"></div>
 <div id="imageContainer"></div>
+<div id="numberDisplay"></div>
 <button id="rerollPlayerButton" class="rerollButton" style="display:none;" onclick="rerollPlayer()">Reroll Player</button>
 <button id="rerollHostButton" class="rerollButton" style="display:none;" onclick="rerollHost()">Reroll Host</button>
+let lastNumber = null;
 
 <script>
 const mainText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaand ACTION! Directors Cut";
@@ -92,15 +102,22 @@ function displayImage(imageId) {
 function rerollPlayer() {
     const imageId = getRandomImageId('player');
     displayImage(imageId);
-    document.getElementById('rerollPlayerButton').style.display = 'inline';
-    document.getElementById('rerollHostButton').style.display = 'inline';
+    displayNumber(1, 4); // Range from 1 to 4 for players
 }
 
 function rerollHost() {
     const imageId = getRandomImageId('host');
     displayImage(imageId);
-    document.getElementById('rerollPlayerButton').style.display = 'inline';
-    document.getElementById('rerollHostButton').style.display = 'inline';
+    displayNumber(1, 3); // Range from 1 to 3 for hosts
+}
+
+function displayNumber(min, max) {
+    let number;
+    do {
+        number = Math.floor(Math.random() * (max - min + 1)) + min;
+    } while (number === lastNumber);
+    lastNumber = number;
+    document.getElementById('numberDisplay').innerText = number;
 }
 
 // Start typing the text on page load
