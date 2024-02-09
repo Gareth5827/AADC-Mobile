@@ -89,9 +89,19 @@ function typeLetter() {
 }
 
 function getRandomImageId(playerType) {
-    const range = playerType === 'player' ? 20 : 10; // 20 for player, 10 for host
-    const offset = playerType === 'player' ? 1 : 21; // Start from 1 for player, 21 for host
-    return Math.floor(Math.random() * range) + offset;
+    let range, offset;
+
+    if (playerType === 'player') {
+        range = 20; // Total number of player images
+        offset = 1; // Starting ID for player images
+    } else { // Assuming 'host' type
+        range = 11; // Total number of host images (45 - 35 + 1)
+        offset = 35; // Starting ID for host images
+    }
+
+    // Generate a random ID within the specified range
+    const imageId = Math.floor(Math.random() * range) + offset;
+    return imageId;
 }
 
 function displayImage(imageId) {
