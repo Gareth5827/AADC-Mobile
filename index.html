@@ -1,114 +1,204 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Director's Cut</title>
-<style>
-body, html {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, sans-serif;
-}
+    <title>AADC</title>
+<link rel="icon" href="AADC.ico" type="image/x-icon">
+    <style>
+        /* Style adjustments */
+        #directorsCut {
+            font-style: italic;
+            text-align: left;
+            margin-top: 10px;
+        }
 
-#mainMenu, .menu {
-  display: none;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-}
+        #tutorialMenu {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+            padding: 20px 0;
+            box-sizing: border-box;
+        }
+        
+        #tutorialMenu img {
+            display: block;
+            max-width: 1152px;
+            max-height: 648px;
+            width: 100%;
+            height: auto;
+            margin: 20px auto;
+        }
 
-#introSequence {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 20px;
-}
+        body {
+            overflow-y: auto;
+        }
 
-#directorsCut {
-  font-style: italic;
-  display: none;
-}
+        .centered {
+            text-align: center;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        #mainMenu.centered {
+            position: fixed;
+            top: 80px;
+        }
 
-.backBtn {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-}
-</style>
+        .tutorialText {
+            max-width: 90%;
+            margin: 0 auto;
+            text-align: left;
+            padding: 10px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        #imageContainer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+        }
+        
+        #imageContainer img {
+            max-width: 80%;
+            max-height: 100%;
+            height: auto;
+            width: auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+        
+    </style>
 </head>
 <body>
 
-<div id="introSequence">
-  <span id="dynamicText"></span>
-  <span id="fixedText">nd ACTION</span>
-  <div id="directorsCut">Director's Cut</div>
-</div>
+    <div id="dynamicText"></div>
+    <div id="directorsCut"></div>
+    <div id="numberDisplay"></div>
+    <div id="imageContainer"></div>
 
-<div id="mainMenu">
-  <button id="playerBtn">Player</button>
-  <button id="hostBtn">Host</button>
-  <button id="tutorialBtn">Tutorial</button>
-</div>
+    <div class="centered hidden" id="mainMenu">
+        <button id="playerButton" onclick="showMenu('player')">Player</button>
+        <button id="tutorialButton" onclick="showMenu('tutorial')">Tutorial</button>
+    </div>
 
-<div id="playerMenu" class="menu">Player Menu <button class="backBtn">Back</button></div>
-<div id="hostMenu" class="menu">Host Menu <button class="backBtn">Back</button></div>
-<div id="tutorialMenu" class="menu">Tutorial Menu <button class="backBtn">Back</button></div>
+    <div class="centered hidden" id="playerMenu">
+        <button id="rerollPlayerButton">Reroll player</button>
+        <button onclick="showMenu('main')">Back</button>
+    </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const dynamicText = document.getElementById('dynamicText');
-  const directorsCut = document.getElementById('directorsCut');
-  let introText = 'aaaaaaaaaaaaaaaaaaaaa';
-  let currentSize = 1; // Starting font size
-  
-  // Function to simulate the typing effect for the intro
-  function typeIntro(index = 0) {
-    if (index < introText.length) {
-      dynamicText.style.fontSize = `${currentSize}px`;
-      dynamicText.textContent += introText[index];
-      currentSize++; // Increase font size for each character
-      setTimeout(() => typeIntro(index + 1), 100);
-    } else {
-      directorsCut.style.display = 'block';
-      showMainMenu();
-    }
-  }
-  
-  // Function to show the main menu after the intro
-  function showMainMenu() {
-    setTimeout(() => {
-      document.getElementById('mainMenu').style.display = 'block';
-    }, 500); // Wait a bit after the intro to display the menu
-  }
+    <div class="centered hidden" id="tutorialMenu">
+        <div id="tutorialText1" class="tutorialText">[Your Tutorial Text 1]</div>
+        <img id="tutorialImage1" src="" alt="Tutorial Image 1">
+        <div id="tutorialText2" class="tutorialText">[Your Tutorial Text 2]</div>
+        <img id="tutorialImage2" src="" alt="Tutorial Image 2">
+        <div id="tutorialText3" class="tutorialText">[Your Tutorial Text 3]</div>
+        <button onclick="showMenu('main')">Back</button>
+    </div>
 
-  typeIntro(); // Start the intro sequence
+    <script>
+        // JavaScript code for dynamic content and menu navigation
+        const mainText = "aaaaaaaaaaaaaaaaaaaand ACTION!";
+        const subText = "Directors Cut";
+        const mainContainer = document.getElementById('dynamicText');
+        const subContainer = document.getElementById('directorsCut');
+        let mainIndex = 0, subIndex = 0;
 
-  // Event listeners for menu buttons
-  document.getElementById('playerBtn').addEventListener('click', () => toggleMenu('playerMenu'));
-  document.getElementById('hostBtn').addEventListener('click', () => toggleMenu('hostMenu'));
-  document.getElementById('tutorialBtn').addEventListener('click', () => toggleMenu('tutorialMenu'));
+        function typeMainLetter() {
+            if (mainIndex < mainText.length) {
+                let span = document.createElement('span');
+                span.innerText = mainText[mainIndex];
+                let fontSize = mainIndex + 1;
+                if (mainIndex >= 22) fontSize = 25;
+                span.style.fontSize = fontSize + 'px';
+                mainContainer.appendChild(span);
+                mainIndex++;
+                setTimeout(typeMainLetter, 90);
+            } else {
+                typeSubLetter();
+            }
+        }
 
-  // Function to toggle visibility of menus
-  function toggleMenu(menuId) {
-    document.querySelectorAll('.menu').forEach(menu => {
-      menu.style.display = 'none';
-    });
-    document.getElementById(menuId).style.display = 'block';
-  }
+        function revealMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('playerButton').style.animation = 'fadeIn 1s ease forwards';
+            document.getElementById('tutorialButton').style.animation = 'fadeIn 1s ease forwards';
+        }
 
-  // Back button functionality
-  document.querySelectorAll('.backBtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.menu').forEach(menu => {
-        menu.style.display = 'none';
-      });
-      document.getElementById('mainMenu').style.display = 'block';
-    });
-  });
-});
-</script>
+function showMenu(menuType) {
+    // Hide all menus
+    document.getElementById('mainMenu').classList.add('hidden');
+    document.getElementById('playerMenu').classList.add('hidden');
+    document.getElementById('hostMenu').classList.add('hidden');
+    document.getElementById('tutorialMenu').classList.add('hidden');
+        // Show/hide the text box with the main menu
+    const textBox = document.getElementById('mainMenuTextBox');
+    textBox.style.display = (menuType === 'main') ? 'block' : 'none';
+        // Hide the image container when showing the tutorial menu
+    const imageContainer = document.getElementById('imageContainer');
+    imageContainer.style.display = (menuType === 'tutorial') ? 'none' : 'flex';
+
+            // Show specific menu
+            if (menuType === 'player') {
+                const playerMenu = document.getElementById('playerMenu');
+                playerMenu.classList.remove('hidden');
+                fadeInButtons(playerMenu);
+                const rerollButton = document.getElementById('rerollPlayerButton');
+                rerollButton.onclick = rerollPlayer; // Attach rerollPlayer function to the button
+                rerollPlayer();
+            } else if (menuType === 'host') {
+                const hostMenu = document.getElementById('hostMenu');
+                hostMenu.classList.remove('hidden');
+                fadeInButtons(hostMenu);
+                const rerollButton = document.getElementById('rerollHostButton');
+                rerollButton.onclick = rerollHost; // Attach rerollHost function to the button
+                rerollHost();
+            } else if (menuType === 'tutorial') {
+                const tutorialMenu = document.getElementById('tutorialMenu');
+                tutorialMenu.classList.remove('hidden');
+                fadeInButtons(tutorialMenu);
+                
+                // Load tutorial content dynamically
+                updateTutorialText('tutorialText1', 'Hello there and welcome to aaaaaaaaaaaaaand ACTION: Directors cut! This will go over the super complex list of rules this game has to offer. Grab some friends or classmates and go to town! RULE NUMBER ONE: Someone needs to be a host! Someone will select the “Host” button on the main menu and a location will be generated. Once you figure out the event you’re doing, we head into … RULE NUMBER TWO: Everyone playing will select the “Player” button on the main menu, and a player card will be generated. As a player, you must become the character you’re given, change your voice, formalities, and speech patterns using the information on your player card. Players will have a secret quest they must complete before the scene ends.');
+                updateTutorialImage('tutorialImage1', '32.png');
+                updateTutorialText('tutorialText2', 'This is an example of a player card. Here we have the wonderful (yet unstable) Cassie! Based on the information we’re given, and based on her picture, we can tell she’s a bit of a screwball. They whistle mid conversation, have the attention span of a TikToker, and are convinced they can talk to birds. And if we take a look at the large number to the right, we can see which quest we have to complete before the end of the scene. In this example we are given the quest “Special gift”. This means we must convince another player in the scene to do something for a special feather from a super rare bird. This bird can be a real bird, a mythical bird, or anything you want to come up with, as long as it’s in character, it’s totally allowed!');
+                updateTutorialImage('tutorialImage2', '33.png');
+                updateTutorialText('tutorialText3', 'And wrapping up this extensive tutorial, we have a location card. In every event on a location, there will be a mention of a player that must do something, on top of being the character they’re given. In this example, the large number to the right tells us that the situation is “Ancient relics”. One player must be a store clerk, and everyone else will be looking at, and potentially buying random items in the store. The store clerk must think of creative ways to make these items seem like they are much more valuable than they are in order to get as much money as possible. Anyway, that’s the end of the tutorial, feel free to ignore rules one and two, thanks and have fun.');
+            } else {
+                document.getElementById('mainMenu').classList.remove('hidden');
+            }
+            
+            // Clear image and number display when returning to main menu
+            if (menuType === 'main') {
+                document.getElementById('imageContainer').innerHTML = '';
+                document.getElementById('numberDisplay').innerText = '';
+            }
+        }
+        
+        function fadeInButtons(menu) {
+            Array.from(menu.getElementsByTagName('button')).forEach(button => {
+                button.style.opacity = 1; // Make the buttons visible
+            });
+        }
+        typeMainLetter();
+    </script>
+
 </body>
 </html>
