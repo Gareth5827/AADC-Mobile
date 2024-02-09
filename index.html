@@ -60,13 +60,18 @@ function typeLetter() {
     if (mainIndex < mainText.length) {
         span.innerText = mainText[mainIndex];
         if(mainText[mainIndex] === 'a' && mainIndex < 30) {
-            span.style.fontSize = `${mainIndex + 1}px`;
+            // Ensure font size does not exceed 30px
+            span.style.fontSize = `${Math.min(mainIndex + 1, 30)}px`;
         } else {
             span.style.fontSize = '30px';
         }
         mainContainer.appendChild(span);
         mainIndex++;
         setTimeout(typeLetter, 90); // Speed of typing
+    } else {
+        // After finishing the text, display the buttons
+        document.getElementById('rerollPlayerButton').style.display = 'inline-block';
+        document.getElementById('rerollHostButton').style.display = 'inline-block';
     }
 }
 
