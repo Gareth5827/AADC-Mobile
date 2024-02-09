@@ -1,9 +1,104 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Image Display</title>
+<title>Dynamic Text & Menu Display</title>
+<style>
+    .hidden { display: none; }
+    .menuButton {
+        cursor: pointer;
+        padding: 10px;
+        margin: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        transition: background-color 0.3s;
+    }
+    .menuButton:hover {
+        background-color: #e7e7e7;
+    }
+    #mainMenuTextBox {
+        display: none;
+        margin-top: 20px;
+    }
+</style>
 </head>
 <body>
-<img src="images/1.png" id="1">
+
+<div id="dynamicText"></div>
+<div id="directorsCut"></div>
+
+<div id="mainMenu" class="hidden">
+    <div id="playerButton" class="menuButton">Player</div>
+    <div id="hostButton" class="menuButton">Host</div>
+    <div id="tutorialButton" class="menuButton">Tutorial</div>
+    <div id="mainMenuTextBox">Main Menu Text Box</div>
+</div>
+
+<!-- Your existing script goes here -->
+<script>
+// Your provided JavaScript code with modifications for menu interactions
+
+document.addEventListener('DOMContentLoaded', () => {
+    typeMainLetter(); // Start typing main text upon page load
+
+    // Event listeners for menu buttons
+    document.getElementById('playerButton').addEventListener('click', () => toggleMenu('player'));
+    document.getElementById('hostButton').addEventListener('click', () => toggleMenu('host'));
+    document.getElementById('tutorialButton').addEventListener('click', () => toggleMenu('tutorial'));
+});
+
+        function typeMainLetter() {
+            if (mainIndex < mainText.length) {
+                let span = document.createElement('span');
+                span.innerText = mainText[mainIndex];
+                let fontSize = mainIndex + 1;
+                if (mainIndex >= 22) fontSize = 25;
+                span.style.fontSize = fontSize + 'px';
+                mainContainer.appendChild(span);
+                mainIndex++;
+                setTimeout(typeMainLetter, 90);
+            } else {
+                typeSubLetter();
+            }
+        }
+
+function typeSubLetter() {
+    // Your typeSubLetter function implementation, followed by revealMenu call
+}
+
+        function revealMenu() {
+            document.getElementById('mainMenu').classList.remove('hidden');
+            document.getElementById('playerButton').style.animation = 'slideInFromLeft 1s ease forwards';
+            document.getElementById('hostButton').style.animation = 'slideInFromTop 1s ease forwards';
+            document.getElementById('tutorialButton').style.animation = 'slideInFromRight 1s ease forwards';
+                // Show the text box
+            document.getElementById('mainMenuTextBox').style.display = 'block';
+        }
+
+function toggleMenu(menuType) {
+    const mainMenu = document.getElementById('mainMenu');
+    const playerMenu = document.getElementById('playerMenu'); // Assume this is another div for player menu
+    const hostMenu = document.getElementById('hostMenu'); // Assume this is another div for host menu
+
+    // Hide all menus
+    mainMenu.classList.add('hidden');
+    playerMenu.classList.add('hidden');
+    hostMenu.classList.add('hidden');
+
+    // Show the selected menu
+    switch(menuType) {
+        case 'main':
+            mainMenu.classList.remove('hidden');
+            break;
+        case 'player':
+            playerMenu.classList.remove('hidden');
+            break;
+        case 'host':
+            hostMenu.classList.remove('hidden');
+            break;
+        // No case for 'tutorial' as it just hides main menu which is already handled
+    }
+}
+</script>
+
 </body>
 </html>
