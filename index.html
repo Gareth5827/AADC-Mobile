@@ -6,31 +6,55 @@
     <title>Intro Sequence and Menus</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
             margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        #introText, #directorsCut {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 10px;
         }
         .menu {
             display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
         }
         .button {
-            margin: 10px;
-            padding: 10px;
+            padding: 20px;
+            margin: 20px;
             cursor: pointer;
             border: 1px solid #ccc;
             background-color: #f0f0f0;
+            transition: background-color 0.3s;
         }
-        #introText {
-            text-align: center;
+        .button:hover {
+            background-color: #e7e7e7;
         }
-        #directorsCut {
-            font-style: italic;
+        #playerButton {
+            transform: translateY(-100px); /* Move closer to the top */
+            font-size: larger; /* Make the text larger */
+        }
+        #hostButton {
+            font-size: larger; /* Make the text larger */
+        }
+        #tutorialButton {
+            transform: translateY(100px); /* Move closer to the bottom */
+            font-size: larger; /* Make the text larger */
+        }
+        .backButton {
+            position: absolute;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
@@ -40,25 +64,25 @@
 <div id="directorsCut"></div>
 
 <div id="mainMenu" class="menu">
-    <div class="button" onclick="showMenu('playerMenu')">Player</div>
-    <div class="button" onclick="showMenu('hostMenu')">Host</div>
-    <div class="button" onclick="showMenu('tutorialMenu')">Tutorial</div>
+    <div id="playerButton" class="button">Player</div>
+    <div id="hostButton" class="button">Host</div>
+    <div id="tutorialButton" class="button">Tutorial</div>
 </div>
 
 <div id="playerMenu" class="menu">
-    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
 </div>
 
 <div id="hostMenu" class="menu">
-    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
 </div>
 
 <div id="tutorialMenu" class="menu">
-    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
 </div>
 
 <script>
-    let mainText = "aaaaaaaaaaaaaaaaaaaaand ACTION";
+    let mainText = "And ACTION";
     let subText = "Directors Cut";
     let mainIndex = 0;
 
@@ -67,10 +91,7 @@
         if (mainIndex < mainText.length) {
             let span = document.createElement('span');
             span.innerText = mainText[mainIndex];
-            let fontSize = 22; // Default font size for "nd ACTION"
-            if (mainIndex < 18) { // Increase font size for each "a" in "and"
-                fontSize = 16 + (mainIndex - 12);
-            }
+            let fontSize = 22; // Standard font size for entire "And ACTION"
             span.style.fontSize = `${fontSize}px`;
             introText.appendChild(span);
             mainIndex++;
