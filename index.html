@@ -60,12 +60,12 @@
 <div id="numberDisplay"></div>
 <button id="rerollPlayerButton" class="rerollButton" style="display:none;" onclick="rerollPlayer()">Reroll Player</button>
 <button id="rerollHostButton" class="rerollButton" style="display:none;" onclick="rerollHost()">Reroll Host</button>
-let lastNumber = null;
 
 <script>
 const mainText = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaand ACTION! Directors Cut";
 const mainContainer = document.getElementById('dynamicText');
 let mainIndex = 0;
+let lastNumber = null;
 
 function typeLetter() {
     let span = document.createElement('span');
