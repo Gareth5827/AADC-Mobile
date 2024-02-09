@@ -32,7 +32,13 @@
         }
 
         body {
-            overflow-y: auto; /* Enables vertical scrolling */
+            font-family: Arial, sans-serif; /* Ensures consistent font usage */
+            overflow-y: auto; /* Enables vertical scrolling if needed */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height of the viewport */
+            margin: 0; /* Removes default margin */
         }
 
         .centered {
@@ -43,13 +49,8 @@
         
         /* If the fixed position is only needed for the main menu, specify it only for that menu */
         #mainMenu.centered {
-            top: 50%; /* Start at the middle of the screen */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Adjust to center the menu */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: fixed; /* Keep the menu in place regardless of scrolling */
+            position: fixed; /* Fix the position relative to the viewport */
+            top: 80px; /* Adjust this value as needed to position from the top */
         }
 
         #mainMenuTextBox {
@@ -68,6 +69,17 @@
             opacity: 0; /* Start with the box invisible */
         }
 
+                /* Centering main menu buttons */
+        #mainMenu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: fixed; /* Position it relative to the viewport */
+            top: 50%; /* Start at the top middle of the screen */
+            transform: translateY(-50%); /* Adjust to exactly middle vertically */
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
         .tutorialText {
             max-width: 90%; /* You can adjust this value as needed */
             margin: 0 auto; /* Centers the text block */
@@ -77,10 +89,11 @@
 
         /* Button styling */
         button {
-            margin: 5px;
-            padding: 20px; /* Increased padding for larger button size */
-            font-size: 24px; /* Adjusted font size for larger text */
-            opacity: 0; /* Initially hide buttons */
+            font-size: 32px; /* Double the text size */
+            padding: 20px 40px; /* Double the padding */
+            margin-bottom: 50px; /* Spacing between buttons */
+            cursor: pointer; /* Changes cursor to pointer on hover */
+            transition: background-color 0.3s ease; /* Smooth background color transition on hover */
         }
 
         /* Animation keyframes */
@@ -152,17 +165,14 @@
         /* Assign animations to buttons */
         #playerButton {
             animation: slideInFromLeft 1s ease forwards;
-            margin-bottom: 100px;
         }
         
         #hostButton {
             animation: slideInFromTop 1s ease forwards;
-            margin-bottom: 100px;
         }
 
                 #tutorialButton {
             animation: slideInFromRight 1s ease forwards;
-                    margin-bottom: 0px;
         }
         
         #imageContainer {
@@ -315,8 +325,8 @@
             const imgElement = document.createElement('img');
             imgElement.src = imagePath;
             imgElement.alt = `Image ${imageId}`;
-            imgElement.style.width = `720px`;
-            imgElement.style.height = `1024px`;
+            imgElement.style.width = `800px`;
+            imgElement.style.height = `450px`;
         
             const imageContainer = document.getElementById('imageContainer');
             imageContainer.innerHTML = '';
