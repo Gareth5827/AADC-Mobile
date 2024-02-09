@@ -16,32 +16,30 @@
 
         #imageContainer {
             position: absolute; /* Use absolute positioning for precise control */
-            left: 20%; /* Adjust this value to move the container more to the left */
+            left: 0; /* Place the container on the very left of the screen */
             top: 100px; /* Adjust top position as needed */
-            width: 80%; /* Adjust the width as necessary */
+            width: 100%; /* Make the container span the full width of its parent */
         }
-
+        
         #imageContainer img {
-            max-width: 80%;
-            height: auto;
+            max-width: 100%; /* Make images as wide as their container */
+            width: 100%; /* Specify width to make images wider */
+            height: auto; /* Adjust height as needed, or use a specific pixel value for taller images */
         }
 
         .rerollButton {
-            display: inline-block;
-            padding: 20px 40px; /* Larger button size */
-            font-size: 24px; /* Larger text size */
-            margin: 0 20px; /* Increase distance between buttons */
-            cursor: pointer;
-            position: fixed;
-            right: 20px; /* Adjust as needed */
+            padding: 20px 40px; /* Increase padding for larger buttons */
+            font-size: 24px; /* Increase font size for larger text */
+            margin: 0 40px; /* Increase distance between buttons if they are side by side */
+            right: 20px; /* Keep on the right but adjust as necessary */
         }
-
+        
         #rerollPlayerButton {
-            top: 40%; /* Adjust position for better spacing */
+            top: 30%; /* Adjust position for better spacing */
         }
-
+        
         #rerollHostButton {
-            top: 60%; /* Further apart from the player button */
+            top: 70%; /* Increase the distance from the player button */
         }
     </style>
 </head>
