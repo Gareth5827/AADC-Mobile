@@ -2,414 +2,93 @@
 <html>
 <head>
     <title>AADC</title>
-<link rel="icon" href="AADC.ico" type="image/x-icon">
+    <link rel="icon" href="AADC.ico" type="image/x-icon">
     <style>
-        /* Style for 'Directors Cut' */
-        #directorsCut {
-            font-style: italic;
-            text-align: left;
-            margin-top: 10px;
-        }
-
-        /* Adjust the styling for the tutorial menu */
-        #tutorialMenu {
-            position: relative; /* Adjusts the position */
-            width: 100%; /* Full width */
-            max-width: 800px; /* Adjust as needed */
-            margin: auto; /* Centers the menu */
-            padding: 20px 0; /* Adds padding at the top and bottom */
-            box-sizing: border-box; /* Ensures padding is included in width */
-        }
-        
-        /* Ensure that the image container doesn't create unnecessary space */
-        #tutorialMenu img {
-            display: block; /* Removes any default inline spacing */
-            max-width: 1152px;
-            max-height: 648px;
-            width: 100%; /* Adjusts the image width to fit the container */
-            height: auto; /* Maintains the aspect ratio */
-            margin: 20px auto; /* Centers the image and adds vertical spacing */
-        }
-
         body {
-            overflow-y: auto; /* Enables vertical scrolling */
-        }
-
-        .centered {
+            font-family: Arial, sans-serif;
             text-align: center;
-            width: 100%; /* Ensure the container spans the full width */
-            z-index: 1000; /* Ensures the menu is above other content */
+            overflow-y: auto;
         }
-        
-        /* If the fixed position is only needed for the main menu, specify it only for that menu */
-        #mainMenu.centered {
+
+        /* Styling for reroll buttons */
+        .rerollButton {
             position: fixed;
-            left: 50%;
+            right: 20px; /* Adjust as needed */
+            padding: 10px 20px; /* Adjustable size */
+            font-size: 16px; /* Adjustable font size */
+            cursor: pointer;
+        }
+
+        #rerollPlayerButton {
             top: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        #mainMenuTextBox {
-            display: none; /* Initially hidden */
-            position: absolute; /* Absolute positioning */
-            top: 50%; /* Center vertically */
-            left: 50%; /* Center horizontally */
-            transform: translate(-50%, -50%); /* Adjust for exact centering */
-            margin: 0; /* Remove margin */
-            padding: 10px;
-            border: 1px solid black;
-            max-width: 600px;
-            text-align: center; /* Center the text inside the box */
-            z-index: 900; /* Ensure it's above other content but below menus */
-            animation: fadeIn 1.75s ease forwards;
-            opacity: 0; /* Start with the box invisible */
+        #rerollHostButton {
+            top: calc(50% + 60px); /* 60px below the player button */
         }
 
-        .tutorialText {
-            max-width: 90%; /* You can adjust this value as needed */
-            margin: 0 auto; /* Centers the text block */
-            text-align: left; /* Aligns text to the left */
-            padding: 10px; /* Adds some padding around the text */
-        }
-
-        /* Button styling */
-        button {
-            margin: 5px;
-            padding: 10px;
-            opacity: 0; /* Initially hide buttons */
-        }
-
-        /* Animation keyframes */
-        @keyframes slideInFromLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInFromTop {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideInFromRight {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        /* Fade-in animation */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Style for the player, host, and both menu buttons */
-        #playerMenu button, #hostMenu button {
-            animation: fadeIn 0.4s ease-out; /* Fade-in effect */
-            opacity: 0; /* Start invisible */
-            position: fixed; /* Position relative to the viewport */
-            bottom: 10px; /* Near the bottom of the screen */
-        }
-
-            /* Positioning for the first button (Reroll) in each menu */
-            #playerMenu button:nth-child(1), #hostMenu button:nth-child(1) {
-                right: 30px; /* Near the bottom right */
-            }
-
-            /* Positioning for the second button (Back) in each menu */
-            #playerMenu button:nth-child(2), #hostMenu button:nth-child(2) {
-                left: 30px; /* Near the bottom left */
-            }
-
-        /* Assign animations to buttons */
-        #playerButton {
-            animation: slideInFromLeft 1s ease forwards;
-            margin-bottom: 50px;
-        }
-        
-        #hostButton {
-            animation: slideInFromTop 1s ease forwards;
-            margin-bottom: 50px;
-        }
-
-                #tutorialButton {
-            animation: slideInFromRight 1s ease forwards;
-        }
-        
         #imageContainer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh; /* Full height of the viewport */
+            margin-top: 50px; /* Adjust as needed */
         }
-        
+
         #imageContainer img {
             max-width: 80%;
-            max-height: 100%;
-            /* Maintain aspect ratio */
             height: auto;
-            width: auto;
         }
-        
-        #numberDisplay {
-            position: fixed; /* Fix the position relative to the viewport */
-            right: 310px; /* 30px from the right side */
-            top: 52.5%; /* Vertically centered */
-            transform: translateY(-50%); /* Adjust vertical alignment */
-            font-size: 160px; /* Font size */
-        }
-        
-        /* Hide elements by default */
-        .hidden {
-            display: none;
-        }
-        
     </style>
 </head>
 <body>
 
-    <!-- Container for the dynamic text -->
-    <div id="dynamicText"></div>
-    <div id="directorsCut"></div>
-    <div id="numberDisplay"></div>
-    <div id="imageContainer"></div>
+<div id="dynamicText"></div>
+<div id="imageContainer"></div>
+<button id="rerollPlayerButton" class="rerollButton" style="display:none;" onclick="rerollPlayer()">Reroll Player</button>
+<button id="rerollHostButton" class="rerollButton" style="display:none;" onclick="rerollHost()">Reroll Host</button>
 
-    <!-- Main Menu - Add Tutorial Button -->
-    <div class="centered hidden" id="mainMenu">
-        <button id="playerButton" onclick="showMenu('player')">Player</button>
-        <button id="hostButton" onclick="showMenu('host')">Host</button>
-        <button id="tutorialButton" onclick="showMenu('tutorial')">Tutorial</button>
-    </div>
-    <div id="mainMenuTextBox">
-        Hello there and welcome to aaaand ACTION: Directors Cut. If this is your first time here, take a look at the tutorial page. If this isn't your first time, or you don't care about the tutorial, jump right in! If you want a version with BONUS CHARACTERS check out the version on <a href="https://www.figma.com/proto/umE9uQNTcuqVr0ef63twmK/AADC?type=design&node-id=6-4&t=PJnFh3OMk7D0ITXk-1&scaling=contain&page-id=0%3A1&starting-point-node-id=6%3A21&mode=design" target="_blank">Figma</a>! And you can also pick up the downloadable beta for absolutely FREE on <a href="https://gareth-simplestudios.itch.io/and-action-directors-cut" target="_blank">Itch.IO</a>! It has a staggering 15 new characters, and 5 new locations!
-    </div>
+<script>
+const mainText = "aaaaaaaaaaaaaaaaaaaand ACTION! Directors Cut";
+const mainContainer = document.getElementById('dynamicText');
+let mainIndex = 0;
 
-    <!-- Player Menu -->
-    <div class="centered hidden" id="playerMenu">
-    <button id="rerollPlayerButton">Reroll player</button>
-        <button onclick="showMenu('main')">Back</button>
-    </div>
+function typeLetter() {
+    if (mainIndex < mainText.length) {
+        let span = document.createElement('span');
+        span.innerText = mainText[mainIndex];
+        mainContainer.appendChild(span);
+        mainIndex++;
+        setTimeout(typeLetter, 90); // Speed of typing
+    } else {
+        // Show reroll buttons after text is fully displayed
+        document.getElementById('rerollPlayerButton').style.display = 'inline';
+        document.getElementById('rerollHostButton').style.display = 'inline';
+    }
+}
 
-    <!-- Host Menu -->
-    <div class="centered hidden" id="hostMenu">
-        <button id="rerollHostButton">Reroll scene</button>
-        <button onclick="showMenu('main')">Back</button>
-    </div>
+function getRandomImageId(playerType) {
+    // Generate image ID based on player type
+    const range = playerType === 'player' ? 20 : 10; // 20 for player, 10 for host
+    const offset = playerType === 'player' ? 1 : 21; // Start from 1 for player, 21 for host
+    return Math.floor(Math.random() * range) + offset;
+}
 
-    <!-- Tutorial Menu -->
-    <div class="centered hidden" id="tutorialMenu">
-        <div id="tutorialText1" class="tutorialText">[Your Tutorial Text 1]</div>
-        <img id="tutorialImage1" src="" alt="Tutorial Image 1">
-        <div id="tutorialText2" class="tutorialText">[Your Tutorial Text 2]</div>
-        <img id="tutorialImage2" src="" alt="Tutorial Image 2">
-        <div id="tutorialText3" class="tutorialText">[Your Tutorial Text 3]</div>
-        <button onclick="showMenu('main')">Back</button>
-    </div>
-
-    <script>
-        const mainText = "aaaaaaaaaaaaaaaaaaaand ACTION!";
-        const subText = "Directors Cut";
-        const mainContainer = document.getElementById('dynamicText');
-        const subContainer = document.getElementById('directorsCut');
-        const avoidList = [];
-        const maxAvoidSize = 5;
-        const totalImages = 20;
-        const baseWidth = 720; // Base width of the image
-        const baseHeight = 1280; // Base height of the image
-        const imageScale = 1.0; // Scale of the image (1 for 100%)
-        let mainIndex = 0, subIndex = 0;
-        let countdown;
-
-        function typeMainLetter() {
-            if (mainIndex < mainText.length) {
-                let span = document.createElement('span');
-                span.innerText = mainText[mainIndex];
-                let fontSize = mainIndex + 1;
-                if (mainIndex >= 22) fontSize = 25;
-                span.style.fontSize = fontSize + 'px';
-                mainContainer.appendChild(span);
-                mainIndex++;
-                setTimeout(typeMainLetter, 90);
-            } else {
-                typeSubLetter();
-            }
-        }
-
-        function revealMenu() {
-            document.getElementById('mainMenu').classList.remove('hidden');
-            document.getElementById('playerButton').style.animation = 'slideInFromLeft 1s ease forwards';
-            document.getElementById('hostButton').style.animation = 'slideInFromTop 1s ease forwards';
-            document.getElementById('tutorialButton').style.animation = 'slideInFromRight 1s ease forwards';
-                // Show the text box
-            document.getElementById('mainMenuTextBox').style.display = 'block';
-        }
-
-        function typeSubLetter() {
-            if (subIndex < subText.length) {
-                let span = document.createElement('span');
-                span.innerText = subText[subIndex];
-                span.style.fontSize = '20px';
-                subContainer.appendChild(span);
-                subIndex++;
-                setTimeout(typeSubLetter, 75);
-            } else {
-                setTimeout(function() {
-                    revealMenu();
-                    // Trigger the fade-in of the text box
-                    document.getElementById('mainMenuTextBox').style.display = 'block';
-                }, 500); // Small delay before revealing the menu and text box
-            }
-        }
-        
-        function getRandomImageId() {
-            let randomId = Math.floor(Math.random() * totalImages) + 1;
-            while (avoidList.includes(randomId)) {
-                randomId = Math.floor(Math.random() * totalImages) + 1;
-            }
-            return randomId;
-        }
-
-                // Function to get a random image ID between 21 and 31
-        function getRandomHostImageId() {
-            return Math.floor(Math.random() * 11) + 21; // Generates a number from 21 to 31
-        }
-
-        function updateAvoidList(newId) {
-            avoidList.push(newId);
-            if (avoidList.length > maxAvoidSize) {
-                avoidList.shift(); // Remove the oldest entry
-            }
-        }
-
-        function displayImage(imageId) {
-            const imagePath = `images/${imageId}.png`;
-            const imgElement = document.createElement('img');
-            imgElement.src = imagePath;
-            imgElement.alt = `Image ${imageId}`;
-            imgElement.style.width = `800px`;
-            imgElement.style.height = `450px`;
-        
-            const imageContainer = document.getElementById('imageContainer');
-            imageContainer.innerHTML = '';
-            imageContainer.appendChild(imgElement);
-        }
-
-        function rerollPlayer() {
-            const randomNumber = Math.floor(Math.random() * 4) + 1; // Generate a number from 1 to 4
-            document.getElementById('numberDisplay').innerText = randomNumber; // Display only the number
-        
-            const imageId = getRandomImageId();
-            displayImage(imageId);
-            updateAvoidList(imageId);
-        }
-
-        // Reroll logic for the Host
-        function rerollHost() {
-            const randomNumber = Math.floor(Math.random() * 3) + 1;
-            document.getElementById('numberDisplay').innerText = randomNumber;
-        
-            let imageId = getRandomHostImageId();
-            while (avoidList.includes(imageId)) {
-                imageId = getRandomHostImageId();
-            }
-            displayImage(imageId);
-            updateAvoidList(imageId);
-        }
-
-                function updateTutorialText(blockId, newText) {
-            const textBlock = document.getElementById(blockId);
-            textBlock.innerText = newText;
-        }
-        
-        function updateTutorialImage(imageId, newImageSrc) {
-            const imageElement = document.getElementById(imageId);
-            imageElement.src = 'images/' + newImageSrc;
-        }
-        
-function showMenu(menuType) {
-    // Hide all menus
-    document.getElementById('mainMenu').classList.add('hidden');
-    document.getElementById('playerMenu').classList.add('hidden');
-    document.getElementById('hostMenu').classList.add('hidden');
-    document.getElementById('tutorialMenu').classList.add('hidden');
-        // Show/hide the text box with the main menu
-    const textBox = document.getElementById('mainMenuTextBox');
-    textBox.style.display = (menuType === 'main') ? 'block' : 'none';
-        // Hide the image container when showing the tutorial menu
+function displayImage(imageId) {
+    const imagePath = `images/${imageId}.png`;
     const imageContainer = document.getElementById('imageContainer');
-    imageContainer.style.display = (menuType === 'tutorial') ? 'none' : 'flex';
+    imageContainer.innerHTML = `<img src="${imagePath}" alt="Image ${imageId}">`;
+}
 
-            // Show specific menu
-            if (menuType === 'player') {
-                const playerMenu = document.getElementById('playerMenu');
-                playerMenu.classList.remove('hidden');
-                fadeInButtons(playerMenu);
-                const rerollButton = document.getElementById('rerollPlayerButton');
-                rerollButton.onclick = rerollPlayer; // Attach rerollPlayer function to the button
-                rerollPlayer();
-            } else if (menuType === 'host') {
-                const hostMenu = document.getElementById('hostMenu');
-                hostMenu.classList.remove('hidden');
-                fadeInButtons(hostMenu);
-                const rerollButton = document.getElementById('rerollHostButton');
-                rerollButton.onclick = rerollHost; // Attach rerollHost function to the button
-                rerollHost();
-            } else if (menuType === 'tutorial') {
-                const tutorialMenu = document.getElementById('tutorialMenu');
-                tutorialMenu.classList.remove('hidden');
-                fadeInButtons(tutorialMenu);
-                
-                // Load tutorial content dynamically
-                updateTutorialText('tutorialText1', 'Hello there and welcome to aaaaaaaaaaaaaand ACTION: Directors cut! This will go over the super complex list of rules this game has to offer. Grab some friends or classmates and go to town! RULE NUMBER ONE: Someone needs to be a host! Someone will select the “Host” button on the main menu and a location will be generated. Once you figure out the event you’re doing, we head into … RULE NUMBER TWO: Everyone playing will select the “Player” button on the main menu, and a player card will be generated. As a player, you must become the character you’re given, change your voice, formalities, and speech patterns using the information on your player card. Players will have a secret quest they must complete before the scene ends.');
-                updateTutorialImage('tutorialImage1', '32.png');
-                updateTutorialText('tutorialText2', 'This is an example of a player card. Here we have the wonderful (yet unstable) Cassie! Based on the information we’re given, and based on her picture, we can tell she’s a bit of a screwball. They whistle mid conversation, have the attention span of a TikToker, and are convinced they can talk to birds. And if we take a look at the large number to the right, we can see which quest we have to complete before the end of the scene. In this example we are given the quest “Special gift”. This means we must convince another player in the scene to do something for a special feather from a super rare bird. This bird can be a real bird, a mythical bird, or anything you want to come up with, as long as it’s in character, it’s totally allowed!');
-                updateTutorialImage('tutorialImage2', '33.png');
-                updateTutorialText('tutorialText3', 'And wrapping up this extensive tutorial, we have a location card. In every event on a location, there will be a mention of a player that must do something, on top of being the character they’re given. In this example, the large number to the right tells us that the situation is “Ancient relics”. One player must be a store clerk, and everyone else will be looking at, and potentially buying random items in the store. The store clerk must think of creative ways to make these items seem like they are much more valuable than they are in order to get as much money as possible. Anyway, that’s the end of the tutorial, feel free to ignore rules one and two, thanks and have fun.');
-            } else {
-                document.getElementById('mainMenu').classList.remove('hidden');
-            }
-            
-            // Clear image and number display when returning to main menu
-            if (menuType === 'main') {
-                document.getElementById('imageContainer').innerHTML = '';
-                document.getElementById('numberDisplay').innerText = '';
-            }
-        }
-        
-        function fadeInButtons(menu) {
-            Array.from(menu.getElementsByTagName('button')).forEach(button => {
-                button.style.opacity = 1; // Make the buttons visible
-            });
-        }
-        typeMainLetter();
-    </script>
+function rerollPlayer() {
+    const imageId = getRandomImageId('player');
+    displayImage(imageId);
+}
+
+function rerollHost() {
+    const imageId = getRandomImageId('host');
+    displayImage(imageId);
+}
+
+// Start typing the text on page load
+typeLetter();
+</script>
 
 </body>
 </html>
