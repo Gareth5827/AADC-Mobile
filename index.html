@@ -1,116 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Dynamic Text & Menu Display</title>
-<style>
-    .hidden { display: none; }
-    .menuButton {
-        cursor: pointer;
-        padding: 10px;
-        margin: 10px;
-        background-color: #f0f0f0;
-        border: 1px solid #ddd;
-        transition: background-color 0.3s;
-    }
-    .menuButton:hover {
-        background-color: #e7e7e7;
-    }
-    #mainMenuTextBox {
-        display: none;
-        margin-top: 20px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intro Sequence and Menus</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .menu {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .button {
+            margin: 10px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f0f0f0;
+        }
+        #introText {
+            text-align: center;
+        }
+        #directorsCut {
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
 
-<div id="dynamicText"></div>
+<div id="introText"></div>
 <div id="directorsCut"></div>
 
-<div id="mainMenu" class="hidden">
-    <div id="playerButton" class="menuButton">Player</div>
-    <div id="hostButton" class="menuButton">Host</div>
-    <div id="tutorialButton" class="menuButton">Tutorial</div>
-    <div id="mainMenuTextBox">Main Menu Text Box</div>
+<div id="mainMenu" class="menu">
+    <div class="button" onclick="showMenu('playerMenu')">Player</div>
+    <div class="button" onclick="showMenu('hostMenu')">Host</div>
+    <div class="button" onclick="showMenu('tutorialMenu')">Tutorial</div>
 </div>
 
-<!-- Your existing script goes here -->
+<div id="playerMenu" class="menu">
+    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+</div>
+
+<div id="hostMenu" class="menu">
+    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+</div>
+
+<div id="tutorialMenu" class="menu">
+    <div class="button" onclick="showMenu('mainMenu')">Back</div>
+</div>
+
 <script>
-// Your provided JavaScript code with modifications for menu interactions
+    let mainText = "aaaaaaaaaaaaaaaaaaaaand ACTION";
+    let subText = "Directors Cut";
+    let mainIndex = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
-    typeMainLetter(); // Start typing main text upon page load
-
-    // Event listeners for menu buttons
-    document.getElementById('playerButton').addEventListener('click', () => toggleMenu('player'));
-    document.getElementById('hostButton').addEventListener('click', () => toggleMenu('host'));
-    document.getElementById('tutorialButton').addEventListener('click', () => toggleMenu('tutorial'));
-});
-
-        function typeMainLetter() {
-            if (mainIndex < mainText.length) {
-                let span = document.createElement('span');
-                span.innerText = mainText[mainIndex];
-                let fontSize = mainIndex + 1;
-                if (mainIndex >= 22) fontSize = 25;
-                span.style.fontSize = fontSize + 'px';
-                mainContainer.appendChild(span);
-                mainIndex++;
-                setTimeout(typeMainLetter, 90);
-            } else {
-                typeSubLetter();
+    function typeMainLetter() {
+        const introText = document.getElementById('introText');
+        if (mainIndex < mainText.length) {
+            let span = document.createElement('span');
+            span.innerText = mainText[mainIndex];
+            let fontSize = 22; // Default font size for "nd ACTION"
+            if (mainIndex < 18) { // Increase font size for each "a" in "and"
+                fontSize = 16 + (mainIndex - 12);
             }
+            span.style.fontSize = `${fontSize}px`;
+            introText.appendChild(span);
+            mainIndex++;
+            setTimeout(typeMainLetter, 100);
+        } else {
+            setTimeout(typeSubLetter, 100);
         }
-
-        function typeSubLetter() {
-            if (subIndex < subText.length) {
-                let span = document.createElement('span');
-                span.innerText = subText[subIndex];
-                span.style.fontSize = '20px';
-                subContainer.appendChild(span);
-                subIndex++;
-                setTimeout(typeSubLetter, 75);
-            } else {
-                setTimeout(function() {
-                    revealMenu();
-                    // Trigger the fade-in of the text box
-                    document.getElementById('mainMenuTextBox').style.display = 'block';
-                }, 500); // Small delay before revealing the menu and text box
-            }
-        }
-
-        function revealMenu() {
-            document.getElementById('mainMenu').classList.remove('hidden');
-            document.getElementById('playerButton').style.animation = 'slideInFromLeft 1s ease forwards';
-            document.getElementById('hostButton').style.animation = 'slideInFromTop 1s ease forwards';
-            document.getElementById('tutorialButton').style.animation = 'slideInFromRight 1s ease forwards';
-                // Show the text box
-            document.getElementById('mainMenuTextBox').style.display = 'block';
-        }
-
-function toggleMenu(menuType) {
-    const mainMenu = document.getElementById('mainMenu');
-    const playerMenu = document.getElementById('playerMenu'); // Assume this is another div for player menu
-    const hostMenu = document.getElementById('hostMenu'); // Assume this is another div for host menu
-
-    // Hide all menus
-    mainMenu.classList.add('hidden');
-    playerMenu.classList.add('hidden');
-    hostMenu.classList.add('hidden');
-
-    // Show the selected menu
-    switch(menuType) {
-        case 'main':
-            mainMenu.classList.remove('hidden');
-            break;
-        case 'player':
-            playerMenu.classList.remove('hidden');
-            break;
-        case 'host':
-            hostMenu.classList.remove('hidden');
-            break;
-        // No case for 'tutorial' as it just hides main menu which is already handled
     }
-}
+
+    let subIndex = 0;
+    function typeSubLetter() {
+        const directorsCut = document.getElementById('directorsCut');
+        if (subIndex < subText.length) {
+            let span = document.createElement('span');
+            span.innerText = subText[subIndex];
+            span.style.fontSize = '22px';
+            directorsCut.appendChild(span);
+            subIndex++;
+            setTimeout(typeSubLetter, 100);
+        } else {
+            document.getElementById('mainMenu').style.display = 'flex';
+        }
+    }
+
+    function showMenu(menuId) {
+        const menus = ['mainMenu', 'playerMenu', 'hostMenu', 'tutorialMenu'];
+        menus.forEach(menu => {
+            const element = document.getElementById(menu);
+            if (menu === menuId) {
+                element.style.display = 'flex';
+            } else {
+                element.style.display = 'none';
+            }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        typeMainLetter();
+    });
 </script>
 
 </body>
