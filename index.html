@@ -1,137 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intro Sequence and Menus</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-        }
-        #introText, #directorsCut {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 10px;
-        }
-        .menu {
-            display: none;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        .button {
-            padding: 20px;
-            margin: 20px;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #f0f0f0;
-            transition: background-color 0.3s;
-        }
-        .button:hover {
-            background-color: #e7e7e7;
-        }
-        #playerButton {
-            transform: translateY(-100px); /* Move closer to the top */
-            font-size: larger; /* Make the text larger */
-        }
-        #hostButton {
-            font-size: larger; /* Make the text larger */
-        }
-        #tutorialButton {
-            transform: translateY(100px); /* Move closer to the bottom */
-            font-size: larger; /* Make the text larger */
-        }
-        .backButton {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Director's Cut</title>
+<style>
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+#mainMenu, .menu {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#introSequence {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 20px;
+}
+
+#directorsCut {
+  font-style: italic;
+  display: none;
+}
+
+.backBtn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+</style>
 </head>
 <body>
 
-<div id="introText"></div>
-<div id="directorsCut"></div>
-
-<div id="mainMenu" class="menu">
-    <div id="playerButton" class="button">Player</div>
-    <div id="hostButton" class="button">Host</div>
-    <div id="tutorialButton" class="button">Tutorial</div>
+<div id="introSequence">
+  <span id="dynamicText"></span>
+  <span id="fixedText">nd ACTION</span>
+  <div id="directorsCut">Director's Cut</div>
 </div>
 
-<div id="playerMenu" class="menu">
-    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
+<div id="mainMenu">
+  <button id="playerBtn">Player</button>
+  <button id="hostBtn">Host</button>
+  <button id="tutorialBtn">Tutorial</button>
 </div>
 
-<div id="hostMenu" class="menu">
-    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
-</div>
-
-<div id="tutorialMenu" class="menu">
-    <div class="button backButton" onclick="showMenu('mainMenu')">Back</div>
-</div>
+<div id="playerMenu" class="menu">Player Menu <button class="backBtn">Back</button></div>
+<div id="hostMenu" class="menu">Host Menu <button class="backBtn">Back</button></div>
+<div id="tutorialMenu" class="menu">Tutorial Menu <button class="backBtn">Back</button></div>
 
 <script>
-    let mainText = "And ACTION";
-    let subText = "Directors Cut";
-    let mainIndex = 0;
-
-    function typeMainLetter() {
-        const introText = document.getElementById('introText');
-        if (mainIndex < mainText.length) {
-            let span = document.createElement('span');
-            span.innerText = mainText[mainIndex];
-            let fontSize = 22; // Standard font size for entire "And ACTION"
-            span.style.fontSize = `${fontSize}px`;
-            introText.appendChild(span);
-            mainIndex++;
-            setTimeout(typeMainLetter, 100);
-        } else {
-            setTimeout(typeSubLetter, 100);
-        }
+document.addEventListener('DOMContentLoaded', () => {
+  const dynamicText = document.getElementById('dynamicText');
+  const directorsCut = document.getElementById('directorsCut');
+  let introText = 'aaaaaaaaaaaaaaaaaaaaa';
+  let currentSize = 1; // Starting font size
+  
+  // Function to simulate the typing effect for the intro
+  function typeIntro(index = 0) {
+    if (index < introText.length) {
+      dynamicText.style.fontSize = `${currentSize}px`;
+      dynamicText.textContent += introText[index];
+      currentSize++; // Increase font size for each character
+      setTimeout(() => typeIntro(index + 1), 100);
+    } else {
+      directorsCut.style.display = 'block';
+      showMainMenu();
     }
+  }
+  
+  // Function to show the main menu after the intro
+  function showMainMenu() {
+    setTimeout(() => {
+      document.getElementById('mainMenu').style.display = 'block';
+    }, 500); // Wait a bit after the intro to display the menu
+  }
 
-    let subIndex = 0;
-    function typeSubLetter() {
-        const directorsCut = document.getElementById('directorsCut');
-        if (subIndex < subText.length) {
-            let span = document.createElement('span');
-            span.innerText = subText[subIndex];
-            span.style.fontSize = '22px';
-            directorsCut.appendChild(span);
-            subIndex++;
-            setTimeout(typeSubLetter, 100);
-        } else {
-            document.getElementById('mainMenu').style.display = 'flex';
-        }
-    }
+  typeIntro(); // Start the intro sequence
 
-    function showMenu(menuId) {
-        const menus = ['mainMenu', 'playerMenu', 'hostMenu', 'tutorialMenu'];
-        menus.forEach(menu => {
-            const element = document.getElementById(menu);
-            if (menu === menuId) {
-                element.style.display = 'flex';
-            } else {
-                element.style.display = 'none';
-            }
-        });
-    }
+  // Event listeners for menu buttons
+  document.getElementById('playerBtn').addEventListener('click', () => toggleMenu('playerMenu'));
+  document.getElementById('hostBtn').addEventListener('click', () => toggleMenu('hostMenu'));
+  document.getElementById('tutorialBtn').addEventListener('click', () => toggleMenu('tutorialMenu'));
 
-    document.addEventListener('DOMContentLoaded', () => {
-        typeMainLetter();
+  // Function to toggle visibility of menus
+  function toggleMenu(menuId) {
+    document.querySelectorAll('.menu').forEach(menu => {
+      menu.style.display = 'none';
     });
-</script>
+    document.getElementById(menuId).style.display = 'block';
+  }
 
+  // Back button functionality
+  document.querySelectorAll('.backBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.menu').forEach(menu => {
+        menu.style.display = 'none';
+      });
+      document.getElementById('mainMenu').style.display = 'block';
+    });
+  });
+});
+</script>
 </body>
 </html>
