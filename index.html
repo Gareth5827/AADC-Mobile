@@ -43,8 +43,13 @@
         
         /* If the fixed position is only needed for the main menu, specify it only for that menu */
         #mainMenu.centered {
-            position: fixed; /* Fix the position relative to the viewport */
-            top: 80px; /* Adjust this value as needed to position from the top */
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #mainMenuTextBox {
@@ -146,10 +151,12 @@
         /* Assign animations to buttons */
         #playerButton {
             animation: slideInFromLeft 1s ease forwards;
+            margin-bottom: 50px;
         }
         
         #hostButton {
             animation: slideInFromTop 1s ease forwards;
+            margin-bottom: 50px;
         }
 
                 #tutorialButton {
@@ -233,7 +240,7 @@
         const subContainer = document.getElementById('directorsCut');
         const avoidList = [];
         const maxAvoidSize = 5;
-        const totalImages = 34;
+        const totalImages = 20;
         const baseWidth = 720; // Base width of the image
         const baseHeight = 1280; // Base height of the image
         const imageScale = 1.0; // Scale of the image (1 for 100%)
